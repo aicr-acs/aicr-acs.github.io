@@ -6,21 +6,23 @@
   <title>AICR-ACS 2026 — AI-Driven Cyber-Resilience for Autonomous Cyber-Physical Systems</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #050c18;
-      --bg2:       #0a1628;
-      --surface:   #0f1f38;
-      --border:    rgba(0,180,255,0.15);
-      --accent:    #00b4ff;
-      --accent2:   #00ffc8;
-      --accent3:   #ff3c6e;
-      --text:      #dce8f5;
-      --muted:     #7a96b8;
-      --heading:   #ffffff;
+      --bg:           #F5F7FA;
+      --bg2:          #FFFFFF;
+      --border:       #C9D3DF;
+      --border-light: #E2E8F0;
+      --accent:       #1B4F8A;
+      --accent-hover: #143D6E;
+      --accent2:      #1F6B45;
+      --text:         #2D3748;
+      --muted:        #64748B;
+      --heading:      #1A202C;
+      --tag-bg:       #EBF2FC;
+      --tag-text:     #1B4F8A;
     }
 
     html { scroll-behavior: smooth; }
@@ -28,521 +30,602 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
       line-height: 1.7;
       overflow-x: hidden;
     }
 
-    /* ── GRID OVERLAY ── */
+    /* Top accent stripe */
+    @keyframes stripe-scroll {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
     body::before {
       content: '';
       position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,180,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,180,255,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-      z-index: 0;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), #4A90D9, var(--accent));
+      background-size: 200% 100%;
+      animation: stripe-scroll 6s linear infinite;
+      z-index: 200;
     }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+      position: sticky;
+      top: 0;
       z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 3rem;
-      height: 64px;
-      background: rgba(5,12,24,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      height: 60px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(16px) saturate(1.6);
+      -webkit-backdrop-filter: blur(16px) saturate(1.6);
+      border-bottom: 1px solid rgba(201,211,223,0.5);
+      box-shadow: 0 1px 8px rgba(27,79,138,0.05);
+      transition: height 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     }
-
+    nav.nav-scrolled {
+      height: 50px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 2px 24px rgba(27,79,138,0.1);
+    }
     .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--accent2); }
-
-    nav ul {
-      list-style: none;
       display: flex;
-      gap: 2.5rem;
-    }
-    nav ul a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    nav ul a:hover { color: var(--accent); }
-
-    /* ── HERO ── */
-    #hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 6rem 3rem 4rem;
-      overflow: hidden;
-    }
-
-    /* Glow orbs */
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      animation: drift 12s ease-in-out infinite alternate;
-    }
-    .orb1 { width: 600px; height: 600px; background: rgba(0,180,255,0.12); top: -100px; right: -100px; }
-    .orb2 { width: 400px; height: 400px; background: rgba(0,255,200,0.08); bottom: 0; left: -100px; animation-delay: -4s; }
-    .orb3 { width: 300px; height: 300px; background: rgba(255,60,110,0.07); top: 40%; left: 40%; animation-delay: -8s; }
-
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(30px, 20px) scale(1.05); }
-    }
-
-    .hero-inner { position: relative; z-index: 1; /*max-width: 900px;*/ }
-
-    .hero-tag {
-      display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid var(--border);
-      padding: 0.35rem 0.85rem;
-      border-radius: 2px;
-      margin-bottom: 2rem;
-      animation: fadeUp 0.8s ease both;
-    }
-    .hero-tag::before {
-      content: '';
-      display: inline-block;
-      width: 6px; height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: pulse 2s ease infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-    }
-
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(2.4rem, 5.5vw, 4.5rem);
-      line-height: 1.1;
-      color: var(--heading);
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.8s 0.15s ease both;
-    }
-    h1 em {
-      font-style: normal;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-sub {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 640px;
-      margin-bottom: 2.5rem;
-      animation: fadeUp 0.8s 0.3s ease both;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-      animation: fadeUp 0.8s 0.45s ease both;
-    }
-    .meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-    .meta-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .meta-value {
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--heading);
-    }
-    .meta-sep { width: 1px; background: var(--border); align-self: stretch; }
-
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      animation: fadeUp 0.8s 0.6s ease both;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.8rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      gap: 0.55rem;
       text-decoration: none;
-      border-radius: 2px;
-      transition: all 0.2s;
     }
-    .btn-primary {
+    .nav-logo-mark {
+      display: inline-block;
       background: var(--accent);
-      color: var(--bg);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.55rem;
+      border-radius: 4px;
+      line-height: 1.5;
+    }
+    .nav-logo-text {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--heading);
+      letter-spacing: -0.01em;
+    }
+    nav ul { list-style: none; display: flex; gap: 0.35rem; }
+    nav ul a {
+      font-size: 0.9rem;
       font-weight: 500;
-    }
-    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
-    .btn-outline {
-      border: 1px solid var(--border);
       color: var(--muted);
+      text-decoration: none;
+      padding: 0.35rem 0.72rem;
+      border-radius: 6px;
+      transition: color 0.18s, background 0.18s;
+      position: relative;
     }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    nav ul a:hover {
+      color: var(--accent);
+      background: rgba(27,79,138,0.06);
+    }
 
-    @keyframes fadeUp {
+    /* ACTIVE NAV LINK */
+    nav ul a.nav-active {
+      color: var(--accent);
+      background: var(--tag-bg);
+      font-weight: 600;
+    }
+
+    /* HERO */
+    #hero {
+      background-color: #0F1F3D;
+      background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px);
+      background-size: 28px 28px;
+      background-attachment: fixed;
+      padding: 5rem 3rem 5rem;
+    }
+    @keyframes hero-fadein {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
-    /* ── SECTIONS ── */
-    section { position: relative; z-index: 1; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem; }
-
-    .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-    h2 {
-      font-family: 'Syne', sans-serif;
+    .hero-inner { max-width: 920px; margin: 0 auto; display: flex; align-items: flex-start; gap: 2.75rem; }
+    .hero-logo-ph {
+      width: 128px; height: 128px;
+      border: 2px dashed rgba(255,255,255,0.25);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
       font-weight: 700;
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      color: var(--heading);
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      line-height: 1.5;
+      flex-shrink: 0;
+      margin-top: 0.5rem;
+      animation: hero-fadein 0.75s ease both;
     }
-    h3 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      font-size: 1.1rem;
+    .hero-content { flex: 1; min-width: 0; animation: hero-fadein 0.75s 0.15s ease both; }
+
+    /* Hero dark overrides */
+    #hero .hero-badge {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.85);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    #hero h1 { color: #ffffff; }
+    #hero .hero-acronym { color: rgba(180,210,255,0.8); }
+    #hero .hero-sub { color: rgba(255,255,255,0.58); }
+    #hero .hero-meta {
+      border-color: rgba(255,255,255,0.1);
+      max-width: 420px;
+    }
+    #hero .meta-item {
+      background: rgba(255,255,255,0.05);
+      border-right-color: rgba(255,255,255,0.08);
+    }
+    #hero .meta-label { color: rgba(255,255,255,0.4); }
+    #hero .meta-value { color: #ffffff; }
+    #hero .btn-outline {
+      border-color: rgba(255,255,255,0.28);
+      color: rgba(255,255,255,0.82);
+      background: transparent;
+    }
+    #hero .btn-outline:hover { border-color: rgba(255,255,255,0.75); color: #fff; }
+
+    @keyframes badge-float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-3px); }
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.85rem;
+      border-radius: 3px;
+      margin-bottom: 1.75rem;
+      animation: badge-float 4s ease-in-out infinite;
+    }
+    h1 {
+      font-weight: 700;
+      font-size: clamp(1.9rem, 4.5vw, 3.1rem);
+      line-height: 1.18;
       color: var(--heading);
       margin-bottom: 0.5rem;
     }
-
-    /* ── DIVIDER ── */
-    .section-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      opacity: 0.3;
-      margin: 0 3rem;
+    .hero-acronym {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
     }
-
-    /* ── ABOUT ── */
-    #about { background: var(--bg2); }
-    .about-grid {
-      display: grid;
-      /*grid-template-columns: 3fr 2fr;*/
-      grid-template-columns: 1fr;
-      gap: 5rem;
-      align-items: start;
-    }
-    .about-body p { margin-bottom: 1.2rem; color: var(--text); }
-    .about-body p:last-child { margin-bottom: 0; }
-
-    .highlight-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      padding: 1.5rem;
-      border-radius: 0 4px 4px 0;
-      font-style: italic;
+    .hero-sub {
+      font-size: 1.07rem;
       color: var(--muted);
-      font-size: 0.95rem;
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
     }
-
-    .stat-cards {
+    .hero-meta {
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      overflow: hidden;
+      max-width: 560px;
     }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.25rem 1.5rem;
-      border-radius: 4px;
+    .meta-item {
+      flex: 1;
+      min-width: 130px;
+      padding: 1rem 1.25rem;
+      border-right: 1px solid var(--border-light);
+      background: var(--bg);
     }
-    .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 2.2rem;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-    }
-    .stat-desc {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
+    .meta-item:last-child { border-right: none; }
+    .meta-label {
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       color: var(--muted);
-      margin-top: 0.3rem;
+      margin-bottom: 0.3rem;
     }
+    .meta-value { font-weight: 700; font-size: 0.93rem; color: var(--heading); }
 
-    /* ── TOPICS ── */
-    #topics { background: var(--bg); }
+    .hero-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; position: relative; overflow: hidden; }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -80%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      transform: skewX(-15deg);
+      transition: left 0.45s ease;
+      pointer-events: none;
+    }
+    .btn-primary:hover::after { left: 140%; }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(27,79,138,0.25);
+    }
+    .btn-outline { border: 1.5px solid var(--border); color: var(--text); background: var(--bg2); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+    /* SECTIONS */
+    section { position: relative; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 4.5rem 3rem; }
+    .section-header {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.45rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 0; height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+      flex-shrink: 0;
+      transition: width 0.5s ease 0.1s;
+    }
+    .reveal.visible .section-label::before,
+    .section-label.visible::before { width: 16px; }
+    h2 {
+      font-weight: 700;
+      font-size: clamp(1.5rem, 2.8vw, 2rem);
+      color: var(--heading);
+      line-height: 1.25;
+    }
+    .section-desc {
+      color: var(--muted);
+      font-size: 0.97rem;
+      max-width: 620px;
+      margin-top: 0.65rem;
+    }
+    h3 { font-weight: 600; font-size: 1.03rem; color: var(--heading); margin-bottom: 0.4rem; }
+
+    /* ABOUT */
+    #about { background: #EEF4FF; }
+    .about-body p { margin-bottom: 1.05rem; color: var(--text); font-size: 0.97rem; }
+    .about-body p:last-child { margin-bottom: 0; }
+    .about-body ul { margin: 0.75rem 0 1rem 1.35rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .about-body li { font-size: 0.95rem; color: var(--text); }
+    .highlight-box {
+      border-left: 3px solid var(--accent);
+      padding: 1.1rem 1.5rem;
+      background: var(--tag-bg);
+      border-radius: 0 5px 5px 0;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-top: 1.5rem;
+      line-height: 1.75;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible .highlight-box { opacity: 1; transform: translateX(0); }
+    .highlight-box strong { color: var(--accent); }
+
+    /* TOPICS */
+    #topics { background: var(--bg2); }
     .topics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.6rem;
     }
     .topic-item {
-      background: var(--surface);
-      padding: 1.25rem 1.5rem;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 5px;
+      padding: 0.85rem 1.1rem;
       display: flex;
       align-items: flex-start;
-      gap: 0.75rem;
-      transition: background 0.2s;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      color: var(--text);
+      transition: border-color 0.15s, background 0.15s, transform 0.18s;
     }
-    .topic-item:hover { background: rgba(0,180,255,0.06); }
+    .topic-item:hover { border-color: var(--accent); background: var(--tag-bg); transform: translateX(5px); }
     .topic-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--accent);
       margin-top: 0.55rem;
       flex-shrink: 0;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .topic-text { font-size: 0.9rem; color: var(--text); }
-
-    /* ── FORMAT ── */
-    #format { background: var(--bg2); }
-    .format-timeline {
-      position: relative;
-      padding-left: 2rem;
-    }
-    .format-timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-    }
-    .timeline-item {
-      position: relative;
-      padding: 0 0 2.5rem 2rem;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -5px; top: 6px;
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid var(--bg2);
-    }
-    .tl-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 0.25rem;
+    .topic-item:hover .topic-dot {
+      transform: scale(1.6);
+      box-shadow: 0 0 0 3px rgba(27,79,138,0.15);
     }
 
-    /* ── SPEAKERS ── */
-    #speakers { background: var(--bg); }
-    .speakers-grid {
+    /* IMPORTANT DATES */
+    #dates { background: var(--bg); }
+    .dates-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1rem;
     }
-    .speaker-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2rem 1.5rem;
-      transition: border-color 0.2s, transform 0.2s;
+    .date-card {
+      background: var(--bg2);
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
-    .speaker-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-    .speaker-role {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
+    .date-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(27,79,138,0.1); }
+    @keyframes card-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(27,79,138,0.12); }
+      50%       { box-shadow: 0 0 0 6px rgba(27,79,138,0.04); }
     }
-    .speaker-name {
-      font-family: 'Syne', sans-serif;
+    .date-card.highlight { border-top: 3px solid var(--accent); animation: card-pulse 3.5s ease-in-out infinite; }
+    .date-event {
+      font-size: 0.75rem;
       font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--heading);
-      margin-bottom: 0.25rem;
-    }
-    .speaker-affil {
-      font-size: 0.85rem;
       color: var(--muted);
-    }
-
-    /* ── ORGANIZERS ── */
-    #organizers { background: var(--bg2); }
-    .org-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-    .org-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 1.5rem;
-    }
-    .org-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      color: var(--heading);
-      margin-bottom: 0.2rem;
-    }
-    .org-inst {
-      font-size: 0.85rem;
-      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
       margin-bottom: 0.5rem;
     }
+    .date-value { font-weight: 700; font-size: 1.05rem; color: var(--heading); }
+    .date-note { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* SUBMISSION */
+    #submission { background: var(--bg2); }
+    .submission-body { font-size: 0.97rem; max-width: 760px; }
+    .submission-body p { margin-bottom: 1rem; line-height: 1.8; }
+    .submission-body a { color: var(--accent); text-decoration: none; }
+    .submission-body a:hover { text-decoration: underline; }
+    @keyframes border-glow {
+      0%   { border-left-color: var(--accent2); }
+      50%  { border-left-color: var(--accent); }
+      100% { border-left-color: var(--accent2); }
+    }
+    .submission-box {
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 5px 5px 0;
+      padding: 1.1rem 1.5rem;
+      margin-top: 1.5rem;
+      font-size: 0.93rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      animation: border-glow 4s ease-in-out infinite;
+    }
+    .reveal.visible .submission-box { opacity: 1; transform: translateX(0); }
+
+    /* ORGANIZERS */
+    #organizers { background: var(--bg); }
+    .subsection-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+    .org-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .org-card {
+      background: var(--bg2);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid transparent;
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      transition: border-left-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .org-card:hover {
+      border-left-color: var(--accent);
+      box-shadow: 0 3px 16px rgba(27,79,138,0.1);
+    }
+    .org-name { font-weight: 700; font-size: 1rem; color: var(--heading); margin-bottom: 0.2rem; }
+    .org-inst { font-size: 0.83rem; color: var(--accent2); margin-bottom: 0.6rem; line-height: 1.45; }
     .org-email {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
       color: var(--muted);
       text-decoration: none;
     }
-    .org-email:hover { color: var(--accent); }
+    .org-email:hover { color: var(--accent); text-decoration: underline; }
 
-    .tpc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 0.75rem;
-    }
-    .tpc-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 1rem 1.25rem;
+    .tba-note {
+      background: var(--bg2);
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      padding: 1.75rem;
+      text-align: center;
+      color: var(--muted);
       font-size: 0.88rem;
     }
-    .tpc-name { font-weight: 500; color: var(--heading); }
-    .tpc-pos { font-size: 0.78rem; color: var(--muted); }
 
-    /* ── PUBLICATION ── */
-    #publication { background: var(--bg); }
-    .pub-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--accent2);
-      border-radius: 0 0 4px 4px;
-      padding: 2rem 2.5rem;
-      display: flex;
-      gap: 3rem;
-      align-items: center;
-      flex-wrap: wrap;
+    /* TPC grid */
+    .tpc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 0;
     }
-    .pub-logo {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
+    .tpc-item {
+      background: var(--bg2);
+      border: 1px solid var(--border-light);
+      border-radius: 5px;
+      padding: 0.9rem 1.1rem;
+      transition: border-color 0.15s;
+    }
+    .tpc-item:hover { border-color: var(--accent); }
+    .tpc-ph { border-style: dashed !important; opacity: 0.85; }
+    .tpc-name { font-weight: 600; font-size: 0.9rem; color: var(--heading); }
+    .tpc-pos { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+    .tpc-role-tag {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
       color: var(--accent);
+      margin-bottom: 0.35rem;
     }
-    .pub-detail { flex: 1; min-width: 240px; }
 
-    /* ── FOOTER ── */
-    footer {
+    /* Org card role badge */
+    .org-role {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--tag-bg);
+      padding: 0.15rem 0.55rem;
+      border-radius: 3px;
+      margin-bottom: 0.65rem;
+    }
+
+    /* PUBLICATION */
+    #publication { background: var(--bg2); }
+    .pub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .pub-card {
       background: var(--bg);
-      border-top: 1px solid var(--border);
-      padding: 2rem 3rem;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 1.75rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .pub-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(27,79,138,0.1); }
+    .pub-card h3 { margin-bottom: 0.65rem; }
+    .pub-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.75; }
+    .pub-card p strong { color: var(--text); }
+    .pub-badge {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--heading);
+      border-top: 3px solid var(--accent);
+      padding: 2.5rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
     }
-    .footer-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      color: var(--accent);
-      font-size: 0.95rem;
-    }
-    .footer-copy {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
+    .footer-logo { font-weight: 700; color: #fff; font-size: 0.95rem; }
+    .footer-copy { font-size: 0.78rem; color: #94a3b8; }
+
+    /* SCROLL PROGRESS BAR */
+    #scroll-bar {
+      position: fixed;
+      top: 3px; left: 0;
+      height: 3px;
+      width: 0%;
+      background: rgba(255,255,255,0.55);
+      z-index: 201;
+      pointer-events: none;
+      transition: width 0.08s linear;
     }
 
-    /* ── SCROLL REVEAL ── */
+    /* SCROLL REVEAL */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
     }
-    .reveal.visible {
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Staggered grid children — start hidden, animate when parent reveals */
+    .topics-grid > *,
+    .dates-grid > *,
+    .org-grid > *,
+    .pub-grid > * {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .topics-grid.visible > *,
+    .dates-grid.visible > *,
+    .org-grid.visible > *,
+    .pub-grid.visible > * {
       opacity: 1;
-      transform: translateY(0);
+      transform: none;
     }
 
-    /* ── RESPONSIVE ── */
+    /* RESPONSIVE */
     @media (max-width: 768px) {
-      nav { padding: 0 1.5rem; }
-      nav ul { gap: 1.2rem; }
-      nav ul a { font-size: 0.7rem; }
-      .container { padding: 3.5rem 1.5rem; }
-      #hero { padding: 5rem 1.5rem 3rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .section-divider { margin: 0 1.5rem; }
-      footer { padding: 1.5rem; }
+      nav { padding: 0 1rem; }
+      nav ul { gap: 0.15rem; }
+      nav ul a { font-size: 0.7rem; padding: 0.3rem 0.5rem; }
+      .nav-logo-text { display: none; }
+      .container { padding: 3rem 1.25rem; }
+      #hero { padding: 3.5rem 1.25rem 3rem; }
+      .hero-inner { flex-direction: column; gap: 1.5rem; }
+      .hero-logo-ph { width: 80px; height: 80px; margin-top: 0; }
+      h1 { font-size: 1.85rem; }
+      .pub-grid { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem 1.25rem; }
     }
   </style>
 </head>
 <body>
+  <div id="scroll-bar"></div>
 
   <!-- NAV -->
   <nav>
-    <a href="#hero" class="nav-logo">AICR<span>-ACS</span></a>
+    <a href="#hero" class="nav-logo">
+      <span class="nav-logo-mark">AICR-ACS</span>
+      <span class="nav-logo-text">2026 Workshop</span>
+    </a>
     <ul>
-      <li><a href="#about">About</a></li>
+      <li><a href="#about">Call for Papers</a></li>
       <li><a href="#topics">Topics</a></li>
-      <li><a href="#format">Format</a></li>
-      <li><a href="#speakers">Speakers</a></li>
+      <li><a href="#dates">Dates</a></li>
+      <li><a href="#submission">Submission</a></li>
       <li><a href="#organizers">Committee</a></li>
       <li><a href="#publication">Publication</a></li>
     </ul>
@@ -550,311 +633,198 @@
 
   <!-- HERO -->
   <section id="hero">
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
     <div class="hero-inner">
-      <div class="hero-tag">Co-located with ACSOS 2026</div>
-      <h1>AI-Driven Cyber-Resilience<br>for <em>Autonomous</em><br>Cyber-Physical Systems</h1>
-      <p class="hero-sub">
-        AICR-ACS 2026 brings together researchers and practitioners advancing autonomous, self-protecting cyber-physical systems — where AI-driven security is a first-class autonomic property.
-      </p>
-      <div class="hero-meta">
-        <div class="meta-item">
-          <span class="meta-label">Edition</span>
-          <span class="meta-value">1st — 2026</span>
+      <div class="hero-logo-ph">Your<br>Logo</div>
+      <div class="hero-content">
+        <div class="hero-badge">Co-located with ACSOS 2026</div>
+        <h1>AI-Driven Cyber-Resilience<br>for Autonomous Cyber-Physical Systems</h1>
+        <div class="hero-acronym">AICR-ACS 2026 &nbsp;&middot;&nbsp; 1st International Workshop</div>
+        <p class="hero-sub">
+          A forum for researchers and practitioners advancing autonomous, self-protecting cyber-physical systems &mdash; where AI-driven security is a first-class autonomic property.
+        </p>
+        <div class="hero-meta">
+          <div class="meta-item">
+            <div class="meta-label">Event</div>
+            <div class="meta-value">Full-day Workshop</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Proceedings</div>
+            <div class="meta-value">IEEE Xplore</div>
+          </div>
         </div>
-        <div class="meta-sep"></div>
-        <!--<div class="meta-item">
-          <span class="meta-label">Format</span>
-          <span class="meta-value">Full-day Workshop</span>
-        </div>-->
-        <div class="meta-sep"></div>
-        <div class="meta-item">
-          <span class="meta-label">Proceedings</span>
-          <span class="meta-value">IEEE Xplore</span>
+        <div class="hero-ctas">
+          <a href="#submission" class="btn btn-primary">Submit a Paper</a>
+          <a href="#about" class="btn btn-outline">Call for Papers</a>
         </div>
-      </div>
-      <div class="hero-ctas">
-        <a href="#about" class="btn btn-primary">Call for Papers</a>
-        <a href="#organizers" class="btn btn-outline">Meet the Committee</a>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
-
-  <!-- ABOUT -->
+  <!-- ABOUT / CfP -->
   <section id="about">
     <div class="container">
-      <!--<div class="section-label reveal">Overview</div>-->
-      <h2 class="reveal">Call for Papers</h2>
-      <div class="about-grid">
-        <div class="about-body reveal">
-          <p>
-            Autonomous cyber-physical systems (CPS) increasingly operate in adversarial and highly dynamic environments, including industrial control systems, smart energy infrastructures, transportation systems, and distributed edge-cloud platforms. As these systems integrate AI components and autonomic control mechanisms, cybersecurity must evolve from static protection toward runtime autonomous defense.
-            <br/>
-            Unlike traditional cybersecurity research, which often focuses on detection algorithms or cryptographic protocols in isolation, AICR-ACS emphasizes security as an autonomic capability: the integration of threat detection, decision-making, and mitigation within self-adaptive control loops (e.g., MAPE-K). The goal is to design systems capable of continuously monitoring their security posture, reasoning about threats, and autonomously adapting their configuration or behavior to maintain operational guarantees.
-            <br/>
-            The workshop differs from generic AI for security venues, which often concentrate on the development and evaluation of detection models, adversarial robustness techniques, or threat classification algorithms. Indeed, AICR-ACS emphasizes the integration of AI-driven security mechanisms within autonomic control architectures. The focus is not limited to improving detection accuracy, but rather to designing systems capable of closed-loop, runtime security adaptation, where monitoring, analysis, planning, and execution are coordinated to maintain system-level guarantees under attack.
-            <br/>
-            Similarly, it differs from classical CPS security workshops by moving beyond static vulnerability analysis or attack modeling. The emphasis is on self-protecting and self-healing CPS, including runtime adaptation, distributed coordination of defenses, and cryptographic agility in long-lived infrastructures.
-            <br/>
-            Furthermore, the workshop introduces forward-looking challenges such as:
-            <ul>
-              <li>Robust integration of AI-based security mechanisms within autonomic loops</li>
-              <li>Runtime validation through cybersecurity digital twins</li>
-              <li>Coordination of distributed defense agents</li>
-              <li>Migration toward post-quantum cryptographic infrastructures</li>
-              <li>Adaptive cryptographic mechanisms capable of evolving over time</li>
-            </ul>
-         AICR-ACS is therefore directly aligned with the core themes of ACSOS: self-adaptation, autonomic computing, and self-organizing systems. It positions cybersecurity not as a peripheral concern, but as a first-class autonomic property of future CPS.   
-
-            
-         
-         <!-- <div class="highlight-box" style="margin-top:1.5rem;">
-            AICR-ACS is directly aligned with the core themes of ACSOS: self-adaptation, autonomic computing, and self-organizing systems. It positions cybersecurity not as a peripheral concern, but as a first-class autonomic property of future CPS.
-          </div>
-          <p style="margin-top:1.5rem;">
-            The workshop also introduces forward-looking challenges: robust AI integration within autonomic loops, runtime validation through cybersecurity digital twins, coordination of distributed defense agents, and migration toward post-quantum cryptographic infrastructures.
-          </p>
-          -->
-        </div>
-        <!--
-        <div class="stat-cards reveal">
-          <div class="stat-card">
-            <div class="stat-num">12–18</div>
-            <div class="stat-desc">Expected submissions</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num">6–8</div>
-            <div class="stat-desc">Target accepted papers</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num">20–30</div>
-            <div class="stat-desc">Anticipated attendees</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num">6</div>
-            <div class="stat-desc">Previous editions (SPS & AI4AS series)</div>
-          </div>
-        -->
+      <div class="section-header">
+        <div class="section-label reveal">Overview</div>
+        <h2 class="reveal">Call for Papers</h2>
+        <p class="section-desc reveal">AICR-ACS focuses on cybersecurity as an autonomic capability integrated within self-adaptive control architectures for cyber-physical systems.</p>
+      </div>
+      <div class="about-body reveal">
+        <p>
+          Autonomous cyber-physical systems (CPS) increasingly operate in adversarial and highly dynamic environments &mdash; including industrial control systems, smart energy infrastructures, transportation systems, and distributed edge-cloud platforms. As these systems integrate AI components and autonomic control mechanisms, cybersecurity must evolve from static protection toward <strong>runtime autonomous defense</strong>.
+        </p>
+        <p>
+          Unlike traditional cybersecurity research focused on detection algorithms or cryptographic protocols in isolation, AICR-ACS emphasizes <strong>security as an autonomic capability</strong>: the integration of threat detection, decision-making, and mitigation within self-adaptive control loops (e.g., MAPE-K). The goal is to design systems capable of continuously monitoring their security posture, reasoning about threats, and autonomously adapting their configuration or behavior to maintain operational guarantees.
+        </p>
+        <p>The workshop also addresses forward-looking challenges, including:</p>
+        <ul>
+          <li>Robust integration of AI-based security mechanisms within autonomic loops</li>
+          <li>Runtime validation through cybersecurity digital twins</li>
+          <li>Coordination of distributed defense agents</li>
+          <li>Migration toward post-quantum cryptographic infrastructures</li>
+          <li>Adaptive cryptographic mechanisms capable of evolving over time</li>
+        </ul>
+        <div class="highlight-box">
+          AICR-ACS is directly aligned with the core themes of ACSOS: self-adaptation, autonomic computing, and self-organizing systems. It positions cybersecurity <strong>not as a peripheral concern, but as a first-class autonomic property</strong> of future cyber-physical systems.
         </div>
       </div>
     </div>
   </section>
-
-  <div class="section-divider"></div>
 
   <!-- TOPICS -->
   <section id="topics">
     <div class="container">
-      <!--<div class="section-label reveal">Call for Papers</div>-->
-      <h2 class="reveal">Topics of Interest</h2>
-      <p class="reveal" style="color:var(--muted); margin-bottom:2rem; max-width:640px;">
-        We welcome original research contributions on, but not limited to, the following topics:
-      </p>
-      <div class="topics-grid reveal">
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">AI/ML-based intrusion detection in CPS and OT environments</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Online and continual learning for adaptive threat detection</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Reinforcement learning for automated mitigation</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Security-aware MAPE-K loops and autonomic control</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Multi-agent coordination for distributed cyber-defense</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Adversarial robustness of AI-based security systems</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Explainable AI for security-critical CPS</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Self-adaptive cryptographic frameworks</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Post-quantum cryptography migration strategies</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Cryptographic agility in long-lived infrastructures</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Cybersecurity digital twins for attack simulation and validation</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Security of smart grids, industrial IoT, and autonomous mobility systems</span></div>
-        <div class="topic-item"><div class="topic-dot"></div><span class="topic-text">Experimental testbeds, cyber ranges, and reproducibility studies</span></div>
+      <div class="section-header">
+        <div class="section-label reveal">Scope</div>
+        <h2 class="reveal">Topics of Interest</h2>
+        <p class="section-desc reveal">We welcome original research contributions on, but not limited to, the following topics:</p>
       </div>
-     
+      <div class="topics-grid reveal">
+        <div class="topic-item"><div class="topic-dot"></div>AI/ML-based intrusion detection in CPS and OT environments</div>
+        <div class="topic-item"><div class="topic-dot"></div>Online and continual learning for adaptive threat detection</div>
+        <div class="topic-item"><div class="topic-dot"></div>Reinforcement learning for automated mitigation</div>
+        <div class="topic-item"><div class="topic-dot"></div>Security-aware MAPE-K loops and autonomic control</div>
+        <div class="topic-item"><div class="topic-dot"></div>Multi-agent coordination for distributed cyber-defense</div>
+        <div class="topic-item"><div class="topic-dot"></div>Adversarial robustness of AI-based security systems</div>
+        <div class="topic-item"><div class="topic-dot"></div>Explainable AI for security-critical CPS</div>
+        <div class="topic-item"><div class="topic-dot"></div>Self-adaptive cryptographic frameworks</div>
+        <div class="topic-item"><div class="topic-dot"></div>Post-quantum cryptography migration strategies</div>
+        <div class="topic-item"><div class="topic-dot"></div>Cryptographic agility in long-lived infrastructures</div>
+        <div class="topic-item"><div class="topic-dot"></div>Cybersecurity digital twins for attack simulation and validation</div>
+        <div class="topic-item"><div class="topic-dot"></div>Security of smart grids, industrial IoT, and autonomous mobility</div>
+        <div class="topic-item"><div class="topic-dot"></div>Experimental testbeds, cyber ranges, and reproducibility studies</div>
+      </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <!-- IMPORTANT DATES -->
+  <section id="dates">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label reveal">Timeline</div>
+        <h2 class="reveal">Important Dates</h2>
+      </div>
+      <div class="dates-grid reveal">
+        <div class="date-card highlight">
+          <div class="date-event">Paper Submission Deadline</div>
+          <div class="date-value">TBA</div>
+          <div class="date-note">Via EasyChair &mdash; track &ldquo;AICR-ACS-Workshop&rdquo;</div>
+        </div>
+        <div class="date-card">
+          <div class="date-event">Author Notification</div>
+          <div class="date-value">TBA</div>
+        </div>
+        <div class="date-card">
+          <div class="date-event">Camera-Ready Due</div>
+          <div class="date-value">TBA</div>
+        </div>
+        <div class="date-card">
+          <div class="date-event">Workshop Day</div>
+          <div class="date-value">TBA</div>
+          <div class="date-note">Co-located with ACSOS 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- SUBMISSION GUIDELINES -->
-<section id="submission">
-  <div class="container">
-    <h2 class="reveal">Submission Guidelines</h2>
-
-    <div class="about-grid">
-      <div class="about-body reveal">
-
-        All submissions are required to be formatted according to the standard IEEE Computer Society Press proceedings style guide. Papers can be submitted in PDF format via EasyChair, making sure to select the track “AICR-ACS-Workshop”. <b>Submitted manuscripts must be no longer than 6 pages </b>(including figures, tables, and references).
-
-Accepted papers will be published in the ACSOS Companion volume and will appear in IEEE Xplore.
-
-As per the standard IEEE policies, all submissions should be original, i.e., they should not have been previously published in any conference proceedings, book, or journal and should not currently be under review for another archival conference. We would like to also highlight IEEE’s policies regarding plagiarism and self-plagiarism, available <a href="https://www.ieee.org/publications/rights/plagiarism/id-plagiarism.html" target"_blank">here</a>.
-
-Moreover, as per IEEE guidelines, the use of content generated by artificial intelligence (AI) in a submission (including but not limited to text, figures, images, and code) shall be disclosed in the acknowledgments section.
-
+  <section id="submission">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label reveal">Instructions for Authors</div>
+        <h2 class="reveal">Submission Guidelines</h2>
+      </div>
+      <div class="submission-body reveal">
+        <p>
+          All submissions must be formatted according to the standard <strong>IEEE Computer Society Press proceedings style guide</strong>. Papers are submitted in PDF format via <strong>EasyChair</strong>, by selecting the track &ldquo;AICR-ACS-Workshop&rdquo;.
+        </p>
+        <p>
+          Accepted papers will be published in the <strong>ACSOS 2026 Companion volume</strong> and submitted for inclusion in IEEE Xplore.
+        </p>
+        <p>
+          As per standard IEEE policies, all submissions must be original and not previously published in any conference proceedings, book, or journal, and not currently under review for another archival venue. Please review IEEE&rsquo;s policies on <a href="https://www.ieee.org/publications/rights/plagiarism/id-plagiarism.html" target="_blank" rel="noopener">plagiarism and self-plagiarism</a>.
+        </p>
+        <p>
+          As per IEEE guidelines, the use of AI-generated content in a submission (including text, figures, images, and code) must be disclosed in the acknowledgments section.
+        </p>
+        <div class="submission-box">
+          <strong>Paper length:</strong> Submitted manuscripts must not exceed <strong>6 pages</strong>, including figures, tables, and references.
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-  <!-- FORMAT -->
-  <section id="format">
-    <div class="container">
-      <div class="section-label reveal">Program</div>
-      <h2 class="reveal">Workshop Format</h2>
-      TBA
-      <!--<p class="reveal" style="color:var(--muted); margin-bottom:3rem; max-width:560px;">
-        A full-day event structured to maximize both knowledge exchange and community engagement.
-      </p>
-      <div class="format-timeline reveal">
-        <div class="timeline-item">
-          <div class="tl-label">Part I</div>
-          <h3>Keynote Talk</h3>
-          <p style="color:var(--muted); font-size:0.9rem;">An invited keynote by a leading expert in AI-driven security and autonomous systems, setting the stage for the day's research discussions.</p>
-        </div>
-        <div class="timeline-item">
-          <div class="tl-label">Part II</div>
-          <h3>Paper Presentation Session I</h3>
-          <p style="color:var(--muted); font-size:0.9rem;">First block of accepted paper presentations, followed by 10–15 minutes of open discussion and wrap-up.</p>
-        </div>
-        <div class="timeline-item">
-          <div class="tl-label">Part III</div>
-          <h3>Paper Presentation Session II</h3>
-          <p style="color:var(--muted); font-size:0.9rem;">Second block of accepted paper presentations, followed by 10–15 minutes of open discussion and wrap-up.</p>
-        </div>
-        <div class="timeline-item" style="padding-bottom:0;">
-          <div class="tl-label">Part IV</div>
-          <h3>Discussion Panel</h3>
-          <p style="color:var(--muted); font-size:0.9rem;">A moderated panel bringing together invited panelists and participants to discuss open challenges and future directions in autonomous cyber-physical security.</p>
-        </div>
-      </div> -->
-    </div>
   </section>
-
-  <div class="section-divider"></div>
-
-  <!-- SPEAKERS -->
-  <section id="speakers">
-    <div class="container">
-      <div class="section-label reveal">Invited Speakers & Panel</div>
-      <h2 class="reveal">Keynote &amp; Panelists</h2>
-      TBA
-      <!--<p class="reveal" style="color:var(--muted); margin-bottom:2rem; font-size:0.9rem; font-style:italic;">(Tentative — to be confirmed)</p>
-      <div class="speakers-grid reveal">
-        <div class="speaker-card">
-          <div class="speaker-role">Keynote Speaker</div>
-          <div class="speaker-name">Salim Hariri</div>
-          <div class="speaker-affil">Professor, University of Arizona, USA</div>
-        </div>
-        <div class="speaker-card">
-          <div class="speaker-role">Panelist</div>
-          <div class="speaker-name">Sudip Mittal</div>
-          <div class="speaker-affil">Associate Professor, University of Alabama, USA</div>
-        </div>
-        <div class="speaker-card">
-          <div class="speaker-role">Panelist</div>
-          <div class="speaker-name">Hisham Kholidy</div>
-          <div class="speaker-affil">Associate Professor, Northern Illinois University, USA</div>
-        </div>
-        <div class="speaker-card">
-          <div class="speaker-role">Panelist</div>
-          <div class="speaker-name">Ananth Grama</div>
-          <div class="speaker-affil">Professor, Purdue University, USA</div>
-        </div> 
-      </div> -->
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
 
   <!-- ORGANIZERS -->
   <section id="organizers">
     <div class="container">
-      <div class="section-label reveal">Organization</div>
-      <h2 class="reveal">Organizing Committee</h2>
-
-      <h3 class="reveal" style="color:var(--accent2); margin-bottom:1rem; font-size:0.85rem; letter-spacing:0.08em; text-transform:uppercase; font-family:'DM Mono',monospace;">Workshop Co-Chairs</h3>
+      <div class="section-header">
+        <div class="section-label reveal">Organization</div>
+        <h2 class="reveal">Organizing Committee</h2>
+      </div>
+      <div class="subsection-label reveal">Workshop Co-Chairs</div>
       <div class="org-grid reveal">
         <div class="org-card">
+          <div class="tpc-role-tag">Workshop Co-Chair</div>
           <div class="org-name">Stefano Iannucci</div>
           <div class="org-inst">Roma Tre University, Italy</div>
           <a href="mailto:stefano.iannucci@uniroma3.it" class="org-email">stefano.iannucci@uniroma3.it</a>
         </div>
         <div class="org-card">
+          <div class="tpc-role-tag">Workshop Co-Chair</div>
           <div class="org-name">Riccardo Torlone</div>
           <div class="org-inst">Roma Tre University, Italy</div>
           <a href="mailto:riccardo.torlone@uniroma3.it" class="org-email">riccardo.torlone@uniroma3.it</a>
         </div>
         <div class="org-card">
+          <div class="tpc-role-tag">Workshop Co-Chair</div>
           <div class="org-name">Massimo Celino</div>
-          <div class="org-inst">ENEA — Italian National Agency for New Technologies, Energy and Sustainable Economic Development</div>
+          <div class="org-inst">ENEA &mdash; Italian National Agency for New Technologies, Energy and Sustainable Economic Development</div>
           <a href="mailto:massimo.celino@enea.it" class="org-email">massimo.celino@enea.it</a>
         </div>
       </div>
-
-      
-      <h3 class="reveal" style="color:var(--accent2); margin-bottom:1rem; font-size:0.85rem; letter-spacing:0.08em; text-transform:uppercase; font-family:'DM Mono',monospace;">Technical Program Committee</h3>
-      TBA
-      <!--<div class="tpc-grid reveal">
-        <div class="tpc-item">
-          <div class="tpc-name">Sherif Abdelwahed</div>
-          <div class="tpc-pos">Professor, Virginia Commonwealth University, USA</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Emiliano Casalicchio</div>
-          <div class="tpc-pos">Professor, Sapienza University of Rome, Italy</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Domenico Corona</div>
-          <div class="tpc-pos">Professor, University of Trento, Italy</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Ananth Grama</div>
-          <div class="tpc-pos">Professor, Purdue University, USA</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Nagarajan Kandasamy</div>
-          <div class="tpc-pos">Professor, Drexel University, USA</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Samee Khan</div>
-          <div class="tpc-pos">Professor, Kansas State University, USA</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Raffaela Mirandola</div>
-          <div class="tpc-pos">Professor, Karlsruhe Institute of Technology, Germany</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Shahram Rahimi</div>
-          <div class="tpc-pos">Professor, University of Alabama, USA</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Domenico Siracusa</div>
-          <div class="tpc-pos">Associate Professor, University of Trento, Italy</div>
-        </div>
-        <div class="tpc-item">
-          <div class="tpc-name">Maria Valenti</div>
-          <div class="tpc-pos">Head of Smart Grid and Energy Network Lab, ENEA, Italy</div>
-        </div>
+      <div class="subsection-label reveal">Technical Program Committee &amp; Publicity Chair</div>
+      <div class="org-grid reveal">
+        <div class="org-card tpc-ph"><div class="tpc-role-tag">TPC Member</div><div class="org-name">Name Surname</div><div class="org-inst">Institution, Country</div><a href="mailto:placeholder@institution.edu" class="org-email">placeholder@institution.edu</a></div>
+        <div class="org-card tpc-ph"><div class="tpc-role-tag">Publicity Chair</div><div class="org-name">Name Surname</div><div class="org-inst">Institution, Country</div><a href="mailto:placeholder@institution.edu" class="org-email">placeholder@institution.edu</a></div>
       </div>
-    </div>-->
-  </section> 
-
-  <div class="section-divider"></div>
+    </div>
+  </section>
 
   <!-- PUBLICATION -->
   <section id="publication">
     <div class="container">
-      <div class="section-label reveal">Publication</div>
-      <h2 class="reveal">Proceedings &amp; Special Issue</h2>
-      <div class="pub-box reveal">
-        <div class="pub-logo">IEEE<br><span style="font-size:1rem;color:var(--accent2);">Xplore</span></div>
-        <div class="pub-detail">
+      <div class="section-header">
+        <div class="section-label reveal">Publication</div>
+        <h2 class="reveal">Proceedings &amp; Special Issue</h2>
+      </div>
+      <div class="pub-grid reveal">
+        <div class="pub-card">
+          <div class="pub-badge">IEEE Xplore</div>
           <h3>Workshop Proceedings</h3>
-          <p style="color:var(--muted); margin-top:0.5rem; font-size:0.9rem;">Accepted papers will be published in the ACSOS 2026 workshop proceedings and submitted for inclusion in <strong style="color:var(--text);">IEEE Xplore</strong>. Papers must follow the conference format and must not exceed 6 pages.</p>
+          <p>Accepted papers will be published in the <strong>ACSOS 2026 workshop proceedings</strong> and submitted for inclusion in IEEE Xplore. Papers must follow the IEEE conference format and must not exceed 6 pages.</p>
         </div>
-        <div class="pub-detail">
+        <div class="pub-card">
           <h3>Special Issue</h3>
-          <p style="color:var(--muted); margin-top:0.5rem; font-size:0.9rem;">We are currently in the process of coordinating a special issue with relevant journals. Authors of selected high-quality papers will be invited to submit extended versions of their work.</p>
+          <p>We are currently coordinating a special issue with relevant journals. Authors of selected high-quality papers will be invited to submit extended versions of their work.</p>
         </div>
       </div>
     </div>
@@ -863,21 +833,57 @@ Moreover, as per IEEE guidelines, the use of content generated by artificial int
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">AICR-ACS 2026</div>
-    <div class="footer-copy">Co-located with ACSOS 2026 &nbsp;·&nbsp; Workshop on AI-Driven Cyber-Resilience for Autonomous Cyber-Physical Systems</div>
+    <div class="footer-copy">Co-located with ACSOS 2026 &nbsp;&middot;&nbsp; Workshop on AI-Driven Cyber-Resilience for Autonomous Cyber-Physical Systems</div>
   </footer>
 
   <script>
-    // Scroll reveal
+    // Scroll progress bar + nav shrink
+    const scrollBar = document.getElementById('scroll-bar');
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      scrollBar.style.width = pct + '%';
+      navEl.classList.toggle('nav-scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    // Scroll reveal: sort entering elements top→bottom, stagger each one
+    const GRID_SELECTORS = ['.topics-grid', '.dates-grid', '.org-grid', '.pub-grid'];
     const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 80);
-          observer.unobserve(e.target);
+    const revealObserver = new IntersectionObserver((entries) => {
+      const batch = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+      batch.forEach((e, i) => {
+        const el = e.target;
+        const delay = i * 90; // 90ms between each reveal element in view
+        el.style.transitionDelay = delay + 'ms';
+        el.classList.add('visible');
+
+        // Stagger grid children on top of the parent delay
+        if (GRID_SELECTORS.some(sel => el.matches(sel))) {
+          [...el.children].forEach((child, ci) => {
+            child.style.transitionDelay = (delay + ci * 80) + 'ms';
+          });
         }
+        revealObserver.unobserve(el);
       });
     }, { threshold: 0.08 });
-    reveals.forEach(el => observer.observe(el));
+    reveals.forEach(el => revealObserver.observe(el));
+
+    // Active nav link tracking
+    const navLinks = document.querySelectorAll('nav ul a');
+    const sections = document.querySelectorAll('section[id]');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('nav-active'));
+          const link = document.querySelector('nav ul a[href="#' + e.target.id + '"]');
+          if (link) link.classList.add('nav-active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    sections.forEach(s => navObserver.observe(s));
   </script>
 </body>
 </html>
