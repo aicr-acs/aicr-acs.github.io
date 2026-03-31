@@ -121,37 +121,70 @@
       font-weight: 600;
     }
 
+    /* HAMBURGER */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.4rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      border-radius: 6px;
+      margin-left: 0.5rem;
+      transition: background 0.15s;
+    }
+    .nav-hamburger:hover { background: rgba(27,79,138,0.06); }
+    .nav-hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--heading);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      transform-origin: center;
+    }
+    nav.nav-open .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    nav.nav-open .nav-hamburger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    nav.nav-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     /* HERO */
     #hero {
       background-color: #0F1F3D;
       background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px);
       background-size: 28px 28px;
       background-attachment: fixed;
-      padding: 5rem 3rem 5rem;
+      padding: 0;
+      min-height: 560px;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
     }
     @keyframes hero-fadein {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .hero-inner { max-width: 920px; margin: 0 auto; display: flex; align-items: flex-start; gap: 2.75rem; }
-    .hero-logo-ph {
-      width: 128px; height: 128px;
-      border: 2px dashed rgba(255,255,255,0.25);
-      border-radius: 16px;
+    .hero-logo-wrap {
+      background: #0F1F3D;
+      min-width: 300px;
+      max-width: 380px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.3);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      text-align: center;
-      line-height: 1.5;
+      padding: 3rem 2.5rem;
       flex-shrink: 0;
-      margin-top: 0.5rem;
       animation: hero-fadein 0.75s ease both;
     }
+    .hero-logo {
+      width: 100%;
+      max-width: 580px;
+      padding-left: 2rem;
+      height: auto;
+      display: block;
+    }
+    .hero-inner { flex: 1; display: flex; align-items: center; padding: 5rem 3.5rem; }
     .hero-content { flex: 1; min-width: 0; animation: hero-fadein 0.75s 0.15s ease both; }
 
     /* Hero dark overrides */
@@ -597,15 +630,48 @@
     }
 
     /* RESPONSIVE */
+    @media (max-width: 860px) {
+      nav {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 60px;
+        padding: 0 1.25rem;
+        align-content: center;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+      }
+      nav.nav-scrolled { height: auto; min-height: 50px; }
+      .nav-hamburger { display: flex; }
+      nav ul {
+        order: 1;
+        width: 100%;
+        flex-direction: column;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        border-top: 1px solid transparent;
+        transition: max-height 0.3s ease, padding 0.3s ease, border-top-color 0.15s ease;
+      }
+      nav.nav-open ul {
+        max-height: 400px;
+        padding: 0.5rem 0;
+        border-top-color: rgba(201,211,223,0.5);
+      }
+      nav ul li { width: 100%; }
+      nav ul a { display: block; padding: 0.65rem 0.85rem; font-size: 0.92rem; }
+    }
     @media (max-width: 768px) {
-      nav { padding: 0 1rem; }
-      nav ul { gap: 0.15rem; }
-      nav ul a { font-size: 0.7rem; padding: 0.3rem 0.5rem; }
-      .nav-logo-text { display: none; }
       .container { padding: 3rem 1.25rem; }
-      #hero { padding: 3.5rem 1.25rem 3rem; }
-      .hero-inner { flex-direction: column; gap: 1.5rem; }
-      .hero-logo-ph { width: 80px; height: 80px; margin-top: 0; }
+      #hero { flex-direction: column; padding: 0; }
+      .hero-logo-wrap {
+        width: 100%;
+        max-width: 100%;
+        min-width: unset;
+        padding: 2rem 1.5rem;
+        border-bottom: 1px solid #0F1F3D;
+      }
+      .hero-logo { max-width: 200px; padding-left: 0; }
+      .hero-inner { padding: 2rem 1.5rem 3rem; }
       h1 { font-size: 1.85rem; }
       .pub-grid { grid-template-columns: 1fr; }
       footer { padding: 1.5rem 1.25rem; }
@@ -621,6 +687,11 @@
       <span class="nav-logo-mark">AICR-ACS</span>
       <span class="nav-logo-text">2026 Workshop</span>
     </a>
+    <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <ul>
       <li><a href="#about">Call for Papers</a></li>
       <li><a href="#topics">Topics</a></li>
@@ -633,8 +704,10 @@
 
   <!-- HERO -->
   <section id="hero">
+    <div class="hero-logo-wrap">
+      <img src="logo-2.png" class="hero-logo" alt="AICR-ACS Logo">
+    </div>
     <div class="hero-inner">
-      <div class="hero-logo-ph">Your<br>Logo</div>
       <div class="hero-content">
         <div class="hero-badge">Co-located with ACSOS 2026</div>
         <h1>AI-Driven Cyber-Resilience<br>for Autonomous Cyber-Physical Systems</h1>
@@ -642,16 +715,6 @@
         <p class="hero-sub">
           A forum for researchers and practitioners advancing autonomous, self-protecting cyber-physical systems &mdash; where AI-driven security is a first-class autonomic property.
         </p>
-        <div class="hero-meta">
-          <div class="meta-item">
-            <div class="meta-label">Event</div>
-            <div class="meta-value">Full-day Workshop</div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-label">Proceedings</div>
-            <div class="meta-value">IEEE Xplore</div>
-          </div>
-        </div>
         <div class="hero-ctas">
           <a href="#submission" class="btn btn-primary">Submit a Paper</a>
           <a href="#about" class="btn btn-outline">Call for Papers</a>
@@ -726,23 +789,25 @@
       <div class="dates-grid reveal">
         <div class="date-card highlight">
           <div class="date-event">Paper Submission Deadline</div>
-          <div class="date-value">TBA</div>
+          <div class="date-value"><b>June 20th, 2026</b></div>
           <div class="date-note">Via EasyChair &mdash; track &ldquo;AICR-ACS-Workshop&rdquo;</div>
         </div>
         <div class="date-card">
           <div class="date-event">Author Notification</div>
-          <div class="date-value">TBA</div>
+          <div class="date-value">July 13th~ 2026</div>
         </div>
         <div class="date-card">
           <div class="date-event">Camera-Ready Due</div>
-          <div class="date-value">TBA</div>
+          <div class="date-value">July 20th, 2026</div>
         </div>
         <div class="date-card">
           <div class="date-event">Workshop Day</div>
-          <div class="date-value">TBA</div>
+          <div class="date-value">September 7 or 11 (TBA)</div>
           <div class="date-note">Co-located with ACSOS 2026</div>
         </div>
       </div>
+      <br>
+      <h4>All times in Anywhere on Earth (AoE) timezone.</h4>
     </div>
   </section>
 
@@ -803,8 +868,8 @@
       </div>
       <div class="subsection-label reveal">Technical Program Committee &amp; Publicity Chair</div>
       <div class="org-grid reveal">
-        <div class="org-card tpc-ph"><div class="tpc-role-tag">TPC Member</div><div class="org-name">Name Surname</div><div class="org-inst">Institution, Country</div><a href="mailto:placeholder@institution.edu" class="org-email">placeholder@institution.edu</a></div>
-        <div class="org-card tpc-ph"><div class="tpc-role-tag">Publicity Chair</div><div class="org-name">Name Surname</div><div class="org-inst">Institution, Country</div><a href="mailto:placeholder@institution.edu" class="org-email">placeholder@institution.edu</a></div>
+        <div class="org-card tpc-ph"><div class="tpc-role-tag">TPC Member</div><div class="org-name">Tommaso Caiazzi</div><div class="org-inst">Roma Tre University, Italy</div><a href="mailto:tommaso.caiazzi@uniroma3.it" class="org-email">tommaso.caiazzi@uniroma3.it</a></div>
+        <div class="org-card tpc-ph"><div class="tpc-role-tag">Publicity Chair</div><div class="org-name">Simone Albero</div><div class="org-inst">Roma Tre University, Italy</div><a href="mailto:simone.albero@uniroma3.it" class="org-email">simone.albero@uniroma3.it</a></div>
       </div>
     </div>
   </section>
@@ -845,6 +910,28 @@
       scrollBar.style.width = pct + '%';
       navEl.classList.toggle('nav-scrolled', window.scrollY > 80);
     }, { passive: true });
+
+    // Hamburger menu
+    const hamburger = document.querySelector('.nav-hamburger');
+    if (hamburger) {
+      hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = navEl.classList.toggle('nav-open');
+        hamburger.setAttribute('aria-expanded', isOpen);
+      });
+      document.addEventListener('click', (e) => {
+        if (!navEl.contains(e.target)) {
+          navEl.classList.remove('nav-open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+      document.querySelectorAll('nav ul a').forEach(a => {
+        a.addEventListener('click', () => {
+          navEl.classList.remove('nav-open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
 
     // Scroll reveal: sort entering elements top→bottom, stagger each one
     const GRID_SELECTORS = ['.topics-grid', '.dates-grid', '.org-grid', '.pub-grid'];
