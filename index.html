@@ -466,6 +466,29 @@
 
     /* ORGANIZERS */
     #organizers { background: var(--bg); }
+    #committee { background: var(--bg2); }
+
+    .section-header-centered {
+      text-align: center;
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 2.5rem;
+    }
+    .section-title-centered {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .section-title-centered::before,
+    .section-title-centered::after {
+      content: '● ● ●';
+      color: var(--accent);
+      font-size: 0.38rem;
+      letter-spacing: 0.45em;
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
     .subsection-label {
       font-size: 0.7rem;
       font-weight: 700;
@@ -697,7 +720,8 @@
       <li><a href="#topics">Topics</a></li>
       <li><a href="#dates">Dates</a></li>
       <li><a href="#submission">Submission</a></li>
-      <li><a href="#organizers">Committee</a></li>
+      <li><a href="#organizers">Organizers</a></li>
+      <li><a href="#committee">Program Committee</a></li>
       <li><a href="#publication">Publication</a></li>
     </ul>
   </nav>
@@ -727,7 +751,6 @@
   <section id="about">
     <div class="container">
       <div class="section-header">
-        <div class="section-label reveal">Overview</div>
         <h2 class="reveal">Call for Papers</h2>
         <p class="section-desc reveal">AICR-ACS focuses on cybersecurity as an autonomic capability integrated within self-adaptive control architectures for cyber-physical systems.</p>
       </div>
@@ -757,7 +780,6 @@
   <section id="topics">
     <div class="container">
       <div class="section-header">
-        <div class="section-label reveal">Scope</div>
         <h2 class="reveal">Topics of Interest</h2>
         <p class="section-desc reveal">We welcome original research contributions on, but not limited to, the following topics:</p>
       </div>
@@ -783,7 +805,6 @@
   <section id="dates">
     <div class="container">
       <div class="section-header">
-        <div class="section-label reveal">Timeline</div>
         <h2 class="reveal">Important Dates</h2>
       </div>
       <div class="dates-grid reveal">
@@ -815,7 +836,6 @@
   <section id="submission">
     <div class="container">
       <div class="section-header">
-        <div class="section-label reveal">Instructions for Authors</div>
         <h2 class="reveal">Submission Guidelines</h2>
       </div>
       <div class="submission-body reveal">
@@ -841,11 +861,9 @@
   <!-- ORGANIZERS -->
   <section id="organizers">
     <div class="container">
-      <div class="section-header">
-        <div class="section-label reveal">Organization</div>
-        <h2 class="reveal">Organizing Committee</h2>
+      <div class="section-header section-header-centered">
+        <h2 class="reveal section-title-centered">Organizers</h2>
       </div>
-      <div class="subsection-label reveal">Workshop Co-Chairs</div>
       <div class="org-grid reveal">
         <div class="org-card">
           <div class="tpc-role-tag">Workshop Co-Chair</div>
@@ -865,11 +883,43 @@
           <div class="org-inst">ENEA &mdash; Italian National Agency for New Technologies, Energy and Sustainable Economic Development</div>
           <a href="mailto:massimo.celino@enea.it" class="org-email">massimo.celino@enea.it</a>
         </div>
+        <div class="org-card tpc-ph">
+          <div class="tpc-role-tag">TPC Member</div>
+          <div class="org-name">Tommaso Caiazzi</div>
+          <div class="org-inst">Roma Tre University, Italy</div>
+          <a href="mailto:tommaso.caiazzi@uniroma3.it" class="org-email">tommaso.caiazzi@uniroma3.it</a>
+        </div>
+        <div class="org-card tpc-ph">
+          <div class="tpc-role-tag">Publicity Chair</div>
+          <div class="org-name">Simone Albero</div>
+          <div class="org-inst">Roma Tre University, Italy</div>
+          <a href="mailto:simone.albero@uniroma3.it" class="org-email">simone.albero@uniroma3.it</a>
+        </div>
       </div>
-      <div class="subsection-label reveal">Technical Program Committee &amp; Publicity Chair</div>
-      <div class="org-grid reveal">
-        <div class="org-card tpc-ph"><div class="tpc-role-tag">TPC Member</div><div class="org-name">Tommaso Caiazzi</div><div class="org-inst">Roma Tre University, Italy</div><a href="mailto:tommaso.caiazzi@uniroma3.it" class="org-email">tommaso.caiazzi@uniroma3.it</a></div>
-        <div class="org-card tpc-ph"><div class="tpc-role-tag">Publicity Chair</div><div class="org-name">Simone Albero</div><div class="org-inst">Roma Tre University, Italy</div><a href="mailto:simone.albero@uniroma3.it" class="org-email">simone.albero@uniroma3.it</a></div>
+    </div>
+  </section>
+
+  <!-- PROGRAM COMMITTEE -->
+  <section id="committee">
+    <div class="container">
+      <div class="section-header section-header-centered">
+        <h2 class="reveal section-title-centered">Program Committee</h2>
+      </div>
+      <div class="tpc-grid reveal">
+        <div class="tpc-item"><div class="tpc-name">Tommaso Caiazzi</div><div class="tpc-pos">Roma Tre University</div></div>
+        <div class="tpc-item"><div class="tpc-name">Stefano Iannucci</div><div class="tpc-pos">Roma Tre University</div></div>
+        <div class="tpc-item"><div class="tpc-name">Elsy Kaddoum</div><div class="tpc-pos">IRIT, Université Toulouse II</div></div>
+        <div class="tpc-item"><div class="tpc-name">Aishwaryaprajna</div><div class="tpc-pos">University of Exeter</div></div>
+        <div class="tpc-item"><div class="tpc-name">Massimo Celino</div><div class="tpc-pos">ENEA</div></div>
+        <div class="tpc-item"><div class="tpc-name">Riccardo Torlone</div><div class="tpc-pos">Roma Tre University</div></div>
+        <div class="tpc-item"><div class="tpc-name">Maurizio Pizzonia</div><div class="tpc-pos">Università degli Studi Roma Tre</div></div>
+        <div class="tpc-item"><div class="tpc-name">Diego Pennino</div><div class="tpc-pos">Università della Tuscia</div></div>
+        <div class="tpc-item"><div class="tpc-name">Michele Casà</div><div class="tpc-pos">ENEA-TERIN-ICT-RETE</div></div>
+        <div class="tpc-item"><div class="tpc-name">Domenico Siracusa</div><div class="tpc-pos">Fondazione Bruno Kessler</div></div>
+        <div class="tpc-item"><div class="tpc-name">Jesse Ables</div><div class="tpc-pos">University of South Alabama</div></div>
+        <div class="tpc-item"><div class="tpc-name">Sudip Mittal</div><div class="tpc-pos">Mississippi State University</div></div>
+        <div class="tpc-item"><div class="tpc-name">Shahram Rahimi</div><div class="tpc-pos">The University of Alabama</div></div>
+        <div class="tpc-item"><div class="tpc-name">Flavia Delicato</div><div class="tpc-pos">Fluminense Federal University (UFF)</div></div>
       </div>
     </div>
   </section>
@@ -878,7 +928,6 @@
   <section id="publication">
     <div class="container">
       <div class="section-header">
-        <div class="section-label reveal">Publication</div>
         <h2 class="reveal">Proceedings &amp; Special Issue</h2>
       </div>
       <div class="pub-grid reveal">
