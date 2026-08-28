@@ -437,6 +437,78 @@
     }
     .date-value { font-weight: 700; font-size: 1.05rem; color: var(--heading); }
     .date-note { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+    .date-note a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .date-note a:hover { text-decoration: underline; }
+
+    /* Past / closed milestones */
+    .date-card.past { background: transparent; border-style: dashed; }
+    .date-card.past .date-event,
+    .date-card.past .date-value,
+    .date-card.past .date-note { color: var(--muted); }
+    .date-card.past .date-value { font-weight: 500; text-decoration: line-through; text-decoration-thickness: 1px; }
+    .date-card.past:hover { transform: none; box-shadow: none; }
+    .date-status {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      margin-top: 0.55rem;
+      background: var(--border-light);
+      color: var(--muted);
+    }
+    .date-card.highlight .date-status { background: var(--tag-bg); color: var(--tag-text); }
+
+    /* SCHEDULE */
+    #schedule { background: var(--bg2); border-bottom: 1px solid var(--border-light); }
+    .schedule-meta {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+    .schedule-list {
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--bg2);
+    }
+    .slot {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 1.5rem;
+      padding: 1.15rem 1.5rem;
+      border-bottom: 1px solid var(--border-light);
+      border-left: 3px solid transparent;
+      transition: background 0.15s, border-left-color 0.15s;
+    }
+    .slot:last-child { border-bottom: none; }
+    .slot:hover { background: var(--bg); border-left-color: var(--accent); }
+    .slot-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      white-space: nowrap;
+      padding-top: 0.1rem;
+    }
+    .slot-kind {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .slot-title { font-weight: 700; color: var(--heading); font-size: 0.98rem; line-height: 1.5; }
+    .slot-authors { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+    .slot-speaker { font-size: 0.87rem; color: var(--text); margin-top: 0.3rem; }
+    .slot.keynote { background: var(--tag-bg); border-left-color: var(--accent); }
+    .slot.keynote .slot-kind { color: var(--accent); }
+    .slot.keynote:hover { background: #E1EBFA; }
+    .slot.break { background: var(--bg); }
+    .slot.break .slot-title { font-weight: 500; color: var(--muted); }
 
     /* SUBMISSION */
     #submission { background: var(--bg2); }
@@ -638,6 +710,7 @@
     /* Staggered grid children — start hidden, animate when parent reveals */
     .topics-grid > *,
     .dates-grid > *,
+    .schedule-list > *,
     .org-grid > *,
     .pub-grid > * {
       opacity: 0;
@@ -646,6 +719,7 @@
     }
     .topics-grid.visible > *,
     .dates-grid.visible > *,
+    .schedule-list.visible > *,
     .org-grid.visible > *,
     .pub-grid.visible > * {
       opacity: 1;
@@ -697,6 +771,7 @@
       .hero-inner { padding: 2rem 1.5rem 3rem; }
       h1 { font-size: 1.85rem; }
       .pub-grid { grid-template-columns: 1fr; }
+      .slot { grid-template-columns: 1fr; gap: 0.4rem; padding: 1rem 1.15rem; }
       footer { padding: 1.5rem 1.25rem; }
     }
   </style>
@@ -719,6 +794,7 @@
       <li><a href="#about">Call for Papers</a></li>
       <li><a href="#topics">Topics</a></li>
       <li><a href="#dates">Dates</a></li>
+      <li><a href="#schedule">Schedule</a></li>
       <li><a href="#submission">Submission</a></li>
       <li><a href="#organizers">Organizers</a></li>
       <li><a href="#committee">Program Committee</a></li>
@@ -812,22 +888,25 @@
       </div>
       <div class="dates-grid reveal">
         <div class="date-card highlight">
-          <div class="date-event">Paper Submission Deadline</div>
-          <div class="date-value"><b><s style="opacity:0.55;font-weight:400;">June 20th</s>&nbsp; June 29th, 2026</b></div>
-          <div class="date-note">Via EasyChair &mdash; track &ldquo;AICR-ACS-Workshop&rdquo;</div>
-        </div>
-        <div class="date-card">
-          <div class="date-event">Author Notification</div>
-          <div class="date-value">July 13th, 2026</div>
-        </div>
-        <div class="date-card">
-          <div class="date-event">Camera-Ready Due</div>
-          <div class="date-value">July 20th, 2026</div>
-        </div>
-        <div class="date-card">
           <div class="date-event">Workshop Day</div>
           <div class="date-value">September 11th, 2026</div>
-          <div class="date-note">Co-located with <a href="https://2026.acsos.org" target="_blank" rel="noopener noreferrer" style="color: white; font-weight: bold;">ACSOS 2026</a></div>
+          <div class="date-note">Co-located with <a href="https://2026.acsos.org" target="_blank" rel="noopener noreferrer">ACSOS 2026</a></div>
+          <div class="date-status">Upcoming</div>
+        </div>
+        <div class="date-card past">
+          <div class="date-event">Paper Submission Deadline</div>
+          <div class="date-value">June 29th, 2026</div>
+          <div class="date-status">Closed</div>
+        </div>
+        <div class="date-card past">
+          <div class="date-event">Author Notification</div>
+          <div class="date-value">July 13th, 2026</div>
+          <div class="date-status">Passed</div>
+        </div>
+        <div class="date-card past">
+          <div class="date-event">Camera-Ready Due</div>
+          <div class="date-value">July 20th, 2026</div>
+          <div class="date-status">Passed</div>
         </div>
       </div>
       <br>
@@ -835,28 +914,72 @@
     </div>
   </section>
 
-  <!-- SUBMISSION GUIDELINES -->
-  <section id="submission">
+  <!-- SCHEDULE -->
+  <section id="schedule">
     <div class="container">
       <div class="section-header">
-        <h2 class="reveal">Submission Guidelines</h2>
+        <h2 class="reveal">Programme</h2>
       </div>
-      <div class="submission-body reveal">
-        <p>
-          All submissions must be formatted according to the standard <strong>IEEE Computer Society Press proceedings style guide</strong>. Papers are submitted in PDF format via <strong>EasyChair</strong>, by selecting the track &ldquo;AICR-ACS-Workshop&rdquo;.
-        </p>
-        <p>
-          Accepted papers will be published in the <strong>ACSOS 2026 Companion volume</strong> and submitted for inclusion in IEEE Xplore.
-        </p>
-        <p>
-          As per standard IEEE policies, all submissions must be original and not previously published in any conference proceedings, book, or journal, and not currently under review for another archival venue. Please review IEEE&rsquo;s policies on <a href="https://www.ieee.org/publications/rights/plagiarism/id-plagiarism.html" target="_blank" rel="noopener">plagiarism and self-plagiarism</a>.
-        </p>
-        <p>
-          As per IEEE guidelines, the use of AI-generated content in a submission (including text, figures, images, and code) must be disclosed in the acknowledgments section.
-        </p>
-        <div class="submission-box">
-          <strong>Paper length:</strong> Submitted manuscripts must not exceed <strong>6 pages</strong>, including figures, tables, and references.
+      <p class="schedule-meta reveal">Friday, September 11th, 2026; half-day workshop, co-located with <a href="https://2026.acsos.org" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600; text-decoration: none;">ACSOS 2026</a>.</p>
+      <div class="schedule-list reveal">
+
+        <div class="slot">
+          <div class="slot-time">09:45 &ndash; 10:00</div>
+          <div class="slot-body">
+            <div class="slot-title">Opening</div>
+          </div>
         </div>
+
+        <div class="slot">
+          <div class="slot-time">10:00 &ndash; 11:00</div>
+          <div class="slot-body">
+            <div class="slot-kind">Keynote Speech</div>
+            <div class="slot-title">Advances in self-protecting cyber-physical systems</div>
+            <div class="slot-speaker">Delivered by <strong>Prof. Emiliano Casalicchio</strong></div>
+          </div>
+        </div>
+
+        <div class="slot break">
+          <div class="slot-time">11:00 &ndash; 11:30</div>
+          <div class="slot-body">
+            <div class="slot-title">Coffee Break</div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">11:30 &ndash; 11:55</div>
+          <div class="slot-body">
+            <div class="slot-kind">Paper</div>
+            <div class="slot-title">Towards a Digital-Twin Cyber Range for MTD against ML Traffic Fingerprinting in Smart Grid</div>
+            <div class="slot-authors">T. Caiazzi, S. Albero, S. Iannucci, R. Torlone, G. Adinolfi, M. Valenti, M. Celino</div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">11:55 &ndash; 12:20</div>
+          <div class="slot-body">
+            <div class="slot-kind">Paper</div>
+            <div class="slot-title">Cloud-Native Smart Grids: Threat Modeling and Impact Analysis for TSO Services</div>
+            <div class="slot-authors">A. Fortuna, D. Siracusa</div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">12:20 &ndash; 12:45</div>
+          <div class="slot-body">
+            <div class="slot-kind">Paper</div>
+            <div class="slot-title">Security Assurance Cases as a Runtime Compliance Check on LLM Adaptation Planning</div>
+            <div class="slot-authors">L. Quirk, R. Gamble</div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">12:45 &ndash; 13:00</div>
+          <div class="slot-body">
+            <div class="slot-title">Final Discussion &amp; Closing</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -926,6 +1049,33 @@
       </div>
     </div>
   </section>
+
+  <!-- SUBMISSION GUIDELINES -->
+  <section id="submission">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="reveal">Submission Guidelines</h2>
+      </div>
+      <div class="submission-body reveal">
+        <p>
+          All submissions must be formatted according to the standard <strong>IEEE Computer Society Press proceedings style guide</strong>. Papers are submitted in PDF format via <strong>EasyChair</strong>, by selecting the track &ldquo;AICR-ACS-Workshop&rdquo;.
+        </p>
+        <p>
+          Accepted papers will be published in the <strong>ACSOS 2026 Companion volume</strong> and submitted for inclusion in IEEE Xplore.
+        </p>
+        <p>
+          As per standard IEEE policies, all submissions must be original and not previously published in any conference proceedings, book, or journal, and not currently under review for another archival venue. Please review IEEE&rsquo;s policies on <a href="https://www.ieee.org/publications/rights/plagiarism/id-plagiarism.html" target="_blank" rel="noopener">plagiarism and self-plagiarism</a>.
+        </p>
+        <p>
+          As per IEEE guidelines, the use of AI-generated content in a submission (including text, figures, images, and code) must be disclosed in the acknowledgments section.
+        </p>
+        <div class="submission-box">
+          <strong>Paper length:</strong> Submitted manuscripts must not exceed <strong>6 pages</strong>, including figures, tables, and references.
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- PUBLICATION -->
   <section id="publication">
     <div class="container">
@@ -985,7 +1135,7 @@
     }
 
     // Scroll reveal: sort entering elements top→bottom, stagger each one
-    const GRID_SELECTORS = ['.topics-grid', '.dates-grid', '.org-grid', '.pub-grid'];
+    const GRID_SELECTORS = ['.topics-grid', '.dates-grid', '.schedule-list', '.org-grid', '.pub-grid'];
     const reveals = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
       const batch = entries
